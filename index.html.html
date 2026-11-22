@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tháp Định Hướng Cá Nhân — Tổ 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Patrick+Hand&family=Itim&display=swap" rel="stylesheet">
+<style>
+/* ====== cài đặt chung ====== */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --muc:#2d2a32;      /* màu mực bút */
+  --hong:#ff9aa2;
+  --cam:#ffb877;
+  --vang:#ffe066;
+  --xanhla:#a8e6a1;
+  --xanhduong:#9fd3ff;
+  --tim:#c9b6ff;
+  --giay:#fffdf5;
+}
+body{
+  background:#f3e9d2;
+  background-image:radial-gradient(#e3d3ae 1.5px, transparent 1.5px);
+  background-size:22px 22px;
+  color:var(--muc);
+  font-family:'Patrick Hand','Itim',cursive,sans-serif;
+  font-size:17px;
+  padding:26px 14px 50px;
+  overflow-x:hidden;
+}
+
+/* viền méo méo giống vẽ tay */
+.tay{
+  border:3px solid var(--muc);
+  border-radius:255px 18px 225px 18px / 18px 225px 18px 255px;
+  box-shadow:5px 5px 0 var(--muc);
+}
+
+/* ====== trang giấy vở ====== */
+.giay{
+  position:relative;
+  max-width:1100px;
+  margin:0 auto;
+  background-color:var(--giay);
+  background-image:linear-gradient(transparent 33px,#cfe3f5 34px);
+  background-size:100% 34px;
+  border:3px solid var(--muc);
+  border-radius:12px;
+  box-shadow:8px 8px 0 var(--muc);
+  padding:46px 48px 36px 86px;
+}
+/* lề đỏ */
+.giay::after{
+  content:"";position:absolute;top:0;bottom:0;left:66px;width:2px;background:#ff8a8a;opacity:.7;
+}
+/* lỗ gáy xoắn */
+.giay::before{
+  content:"";position:absolute;top:14px;bottom:14px;left:14px;width:26px;
+  background:radial-gradient(circle at 13px 13px,#f3e9d2 7px,var(--muc) 8px,var(--muc) 10px,transparent 11px);
+  background-size:26px 46px;
+}
+
+/* hình vẽ nhỏ bay bay */
+.bay{position:absolute;font-size:30px;animation:bay 4s ease-in-out infinite;user-select:none;pointer-events:none}
+.bay.b1{top:22px;right:60px}
+.bay.b2{top:110px;left:100px;animation-delay:1s;font-size:26px}
+.bay.b3{top:70px;right:190px;animation-delay:2s;font-size:24px}
+@keyframes bay{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-10px) rotate(8deg)}}
+
+/* ====== đầu trang ====== */
+.nhan-tren{display:flex;justify-content:center}
+.nhan-tren span{
+  background:var(--vang);padding:6px 18px;font-size:15px;letter-spacing:1px;
+  transform:rotate(-2deg);display:inline-block;
+  border:2.5px solid var(--muc);border-radius:30px;box-shadow:3px 3px 0 var(--muc);
+}
+h1{
+  font-family:'Pacifico',cursive;
+  text-align:center;font-weight:400;font-size:64px;line-height:1.15;
+  margin-top:20px;color:var(--muc);
+  text-shadow:3px 3px 0 var(--hong);
+}
+h1 .to{
+  display:inline-block;color:#fff;background:var(--muc);
+  padding:0 20px;margin-top:6px;border-radius:14px;text-shadow:3px 3px 0 #ff6b81;
+  transform:rotate(-1.5deg);
+}
+.phu-de{text-align:center;margin-top:18px;font-size:20px}
+.phu-de b{background:linear-gradient(transparent 55%,var(--vang) 55%);font-weight:400;padding:0 4px}
+.tim{text-align:center;font-size:26px;margin-top:10px;animation:dap 1.2s infinite}
+@keyframes dap{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+.goi-y{text-align:center;font-size:16px;color:#6d6475;margin-top:4px}
+
+/* nút bấm */
+.hang-nut{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:18px}
+.nut{
+  font-family:inherit;font-size:17px;cursor:pointer;
+  background:#fff;border:3px solid var(--muc);border-radius:30px;
+  padding:8px 20px;box-shadow:3px 3px 0 var(--muc);
+  transition:transform .12s, box-shadow .12s;
+}
+.nut:hover{transform:translate(-2px,-2px) rotate(-1deg);box-shadow:5px 5px 0 var(--muc)}
+.nut:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--muc)}
+.nut.chinh{background:var(--hong)}
+.nut.phu{background:var(--xanhduong)}
+
+/* ====== bố cục chính ====== */
+.chinh-giua{display:grid;grid-template-columns:62fr 38fr;gap:34px;margin-top:34px;align-items:start}
+.tieu-de-nho{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;margin-bottom:16px}
+.tieu-de-nho small{font-size:14px;color:#8b6f3d;letter-spacing:1px}
+.tieu-de-nho b{font-family:'Itim',cursive;font-weight:400;font-size:23px;display:block}
+.so-tang{background:var(--muc);color:#fff;padding:3px 14px;border-radius:20px;transform:rotate(3deg);font-size:15px}
+
+/* ====== THÁP (hình tháp thật) ====== */
+.thap{
+  --k:7%;                       /* độ thu nhỏ mỗi tầng */
+  display:flex;flex-direction:column;
+  max-width:600px;margin:0 auto;padding-top:38px;
+  filter:drop-shadow(5px 6px 0 var(--muc));
+}
+/* mái nhọn trên đỉnh */
+.mai{position:relative;height:100px;width:calc(100% - 8 * var(--k));margin:0 auto -3px}
+.mai::before{content:"";position:absolute;inset:0;background:var(--muc);clip-path:polygon(50% 0,100% 100%,0 100%)}
+.mai::after{content:"";position:absolute;inset:0;background:var(--vang);clip-path:polygon(50% 10px,calc(100% - 10px) 100%,10px 100%)}
+.mai .co{position:absolute;left:50%;top:-38px;transform:translateX(-50%);font-size:34px;z-index:3;animation:bay 3s ease-in-out infinite}
+.mai .vuong{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);font-size:30px;z-index:3}
+
+/* mỗi tầng là một hình thang, tầng trên hẹp hơn tầng dưới */
+.tang{position:relative;margin-top:-3px}
+.tang::before{
+  content:"";position:absolute;inset:0;background:var(--muc);
+  clip-path:polygon(var(--t) 0,calc(100% - var(--t)) 0,calc(100% - var(--b)) 100%,var(--b) 100%);
+}
+.tang::after{
+  content:"";position:absolute;inset:0;background:var(--nen);
+  clip-path:polygon(calc(var(--t) + 4px) 3px,calc(100% - var(--t) - 4px) 3px,calc(100% - var(--b) - 4px) calc(100% - 3px),calc(var(--b) + 4px) calc(100% - 3px));
+}
+.t4{--t:calc(var(--k) * 4);--b:calc(var(--k) * 3);--nen:var(--vang)}
+.t3{--t:calc(var(--k) * 3);--b:calc(var(--k) * 2);--nen:var(--xanhduong)}
+.t2{--t:calc(var(--k) * 2);--b:var(--k);--nen:var(--xanhla)}
+.t1{--t:var(--k);--b:0%;--nen:var(--hong)}
+
+.noidung{position:relative;z-index:2;text-align:center;padding:14px calc(var(--t) + 14px) 20px}
+.noidung small{display:block;font-size:13px;opacity:.75;line-height:1.1}
+.noidung h2{font-family:'Itim',cursive;font-weight:400;font-size:17px;line-height:1.2;margin-top:2px}
+.so{
+  display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;
+  background:#fff;border:2px solid var(--muc);font-size:14px;margin-right:6px;vertical-align:1px;
+}
+.luoi{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+/* mỗi ô giống giấy note dán */
+.luoi input{
+  width:100%;font-family:inherit;font-size:14.5px;text-align:center;color:var(--muc);
+  background:#fffbe0;border:2px dashed var(--muc);border-radius:8px;padding:6px 3px;
+  transform:rotate(-1deg);
+}
+.luoi input:nth-child(even){transform:rotate(1.2deg);background:#fff}
+.luoi input:focus{outline:none;background:#fff;border-style:solid;transform:rotate(0) scale(1.04)}
+
+/* thanh tiến độ */
+.tien-do-khung{margin-top:22px}
+.tien-do{height:22px;background:#fff;border:3px solid var(--muc);border-radius:20px;overflow:hidden;position:relative}
+.tien-do i{
+  display:block;height:100%;width:0;transition:width .5s;
+  background:repeating-linear-gradient(45deg,var(--hong) 0 12px,#ffc0c6 12px 24px);
+}
+.tien-do-chu{display:flex;justify-content:space-between;margin-top:6px;font-size:16px}
+
+/* ====== MỤC TIÊU (giấy note) ====== */
+.cot-phai{display:flex;flex-direction:column;gap:22px}
+.hop-muctieu{background:#fff;padding:0 0 16px;overflow:visible}
+.hop-muctieu .dau{
+  background:var(--muc);color:#fff;padding:12px 16px;
+  border-radius:200px 12px 200px 12px / 12px 100px 12px 100px;
+  font-family:'Itim',cursive;font-size:20px;display:flex;gap:8px;align-items:center;
+}
+.dau .ngoi{color:var(--vang)}
+.thanh-muctieu{padding:16px 16px 0;display:flex;flex-direction:column;gap:20px}
+.postit{position:relative;padding:14px 14px 12px;border:2.5px solid var(--muc);border-radius:6px;box-shadow:4px 4px 0 var(--muc)}
+.postit.p1{background:#ffd9b8;transform:rotate(-1.2deg)}
+.postit.p2{background:#d4f4d0;transform:rotate(1deg)}
+.postit.p3{background:#d6e8ff;transform:rotate(-0.7deg)}
+/* băng dính */
+.postit::before{
+  content:"";position:absolute;top:-13px;left:50%;width:72px;height:22px;margin-left:-36px;
+  background:rgba(255,224,102,.8);border:1.5px dashed rgba(45,42,50,.45);transform:rotate(-3deg);
+}
+.postit-tren{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.postit-tren b{font-family:'Itim',cursive;font-weight:400;font-size:18px}
+.postit-tren span{background:#fff;border:2px solid var(--muc);padding:0 10px;border-radius:20px;font-size:14px}
+.postit textarea{
+  width:100%;margin-top:8px;min-height:78px;resize:vertical;
+  font-family:inherit;font-size:16px;color:var(--muc);line-height:1.5;
+  background:#fff;border:2px solid var(--muc);border-radius:8px;padding:10px;
+}
+.postit textarea:focus{outline:3px dotted var(--hong)}
+.luu-y{font-size:15px;color:#6d6475;padding:0 18px;margin-top:16px}
+
+.cauhoi{background:var(--tim);padding:16px 18px;text-align:center;position:relative}
+.cauhoi small{font-size:14px;letter-spacing:1px}
+.cauhoi p{font-family:'Itim',cursive;font-size:20px;margin:8px 0 12px;line-height:1.35;min-height:54px}
+.cauhoi .nut{font-size:15px;padding:5px 16px}
+
+/* ====== 3 BƯỚC ====== */
+.tieu-de-buoc{text-align:center;margin-top:46px}
+.tieu-de-buoc h2{
+  display:inline-block;font-family:'Pacifico',cursive;font-weight:400;font-size:28px;
+  background:var(--vang);padding:2px 22px;transform:rotate(-1.5deg);
+  border:3px solid var(--muc);border-radius:14px;box-shadow:4px 4px 0 var(--muc);
+}
+.cac-buoc{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:28px}
+.buoc{background:#fff;padding:18px 18px 20px;position:relative}
+.buoc:nth-child(1){transform:rotate(-1.5deg)}
+.buoc:nth-child(2){transform:rotate(1deg)}
+.buoc:nth-child(3){transform:rotate(-0.8deg)}
+.buoc-so{
+  position:absolute;top:-18px;right:14px;width:46px;height:46px;border-radius:50%;
+  background:var(--hong);border:3px solid var(--muc);display:grid;place-items:center;
+  font-family:'Pacifico',cursive;font-size:20px;
+}
+.buoc:nth-child(2) .buoc-so{background:var(--xanhla)}
+.buoc:nth-child(3) .buoc-so{background:var(--xanhduong)}
+.buoc-icon{font-size:34px}
+.buoc h3{font-family:'Itim',cursive;font-weight:400;font-size:20px;margin-top:6px}
+.buoc p{font-size:16px;margin-top:6px;line-height:1.5;color:#4b4452}
+
+/* ====== CHÂN TRANG ====== */
+.chan{margin-top:40px;text-align:center}
+.chan .loi{font-size:16px;color:#6d6475}
+.tem{
+  display:inline-block;margin-top:14px;
+  font-family:'Pacifico',cursive;font-size:30px;color:#d6336c;
+  border:4px double #d6336c;border-radius:14px;padding:4px 26px;
+  transform:rotate(-3deg);background:rgba(255,255,255,.7);
+}
+.chan .nho{font-size:14px;color:#9b8f80;margin-top:14px}
+.trang-thai{text-align:center;min-height:24px;margin-top:10px;font-size:17px;color:#2f9e44}
+.trang-thai.loi-luu{color:#d6336c}
+
+/* hộp hỏi khôi phục */
+.nen-toi{position:fixed;inset:0;background:rgba(45,42,50,.55);display:none;place-items:center;padding:16px;z-index:50}
+.nen-toi.mo{display:grid}
+.hop-hoi{background:#fff;max-width:420px;width:100%;padding:24px}
+.hop-hoi h3{font-family:'Itim',cursive;font-weight:400;font-size:23px}
+.hop-hoi p{margin-top:8px;line-height:1.5}
+.hop-hoi .nut-hop{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+
+/* hiệu ứng pháo giấy */
+.giay-roi{position:fixed;top:-30px;font-size:26px;z-index:60;pointer-events:none;animation:roi 2.4s linear forwards}
+@keyframes roi{to{transform:translateY(110vh) rotate(540deg);opacity:.9}}
+
+/* ====== điện thoại ====== */
+@media(max-width:900px){
+  .giay{padding:34px 18px 30px 52px}
+  .giay::after{left:38px}
+  .giay::before{left:6px;width:22px;background-size:22px 46px;
+    background-image:radial-gradient(circle at 11px 13px,#f3e9d2 6px,var(--muc) 7px,var(--muc) 9px,transparent 10px)}
+  h1{font-size:40px}
+  .chinh-giua{grid-template-columns:1fr}
+  .thap{--k:5.5%}
+  .cac-buoc{grid-template-columns:1fr}
+  .bay.b3{display:none}
+}
+@media(max-width:520px){
+  .thap{--k:3.5%}
+  .luoi input{font-size:13px}
+}
+</style>
+</head>
+<body>
+
+<main class="giay">
+  <span class="bay b1">⭐</span>
+  <span class="bay b2">✏️</span>
+  <span class="bay b3">🌈</span>
+
+  <div class="nhan-tren"><span>✦ nhận diện • ưu tiên • hành động ✦</span></div>
+  <h1>Tháp Định Hướng <span class="to">Cá Nhân</span></h1>
+  <p class="phu-de"><b>Nhận diện nhu cầu</b> • <b>Sắp xếp ưu tiên</b> • <b>Hành động mỗi ngày</b></p>
+  <div class="tim">💖</div>
+  <p class="goi-y">Bấm vào từng ô để viết theo cách của bạn nhé — nhớ bấm Lưu để không bị mất!</p>
+
+  <div class="hang-nut">
+    <button class="nut chinh" id="saveBtn">💾 Lưu tháp của tôi</button>
+    <button class="nut phu" id="restoreBtn">↺ Khôi phục mẫu</button>
+  </div>
+  <p class="trang-thai" id="status"></p>
+
+  <div class="chinh-giua">
+
+    <!-- bên trái: tháp -->
+    <section>
+      <div class="tieu-de-nho">
+        <div><small>BẮT ĐẦU TỪ DƯỚI LÊN ↑</small><b>Đi lên từng tầng, từng ngày</b></div>
+        <span class="so-tang">4 tầng</span>
+      </div>
+
+      <div class="thap">
+        <div class="mai"><span class="co">🚩</span><span class="vuong">👑</span></div>
+
+        <article class="tang t4"><div class="noidung">
+          <small>Đỉnh tháp ★★★</small>
+          <h2><span class="so">4</span>NHU CẦU PHÁT TRIỂN</h2>
+          <div class="luoi">
+            <input data-tower="3-0" value="Được công nhận"><input data-tower="3-1" value="Tự tin">
+            <input data-tower="3-2" value="Học hỏi"><input data-tower="3-3" value="Sống ý nghĩa">
+          </div>
+        </div></article>
+
+        <article class="tang t3"><div class="noidung">
+          <small>Học để làm được việc</small>
+          <h2><span class="so">3</span>KỸ NĂNG CẦN TRAU DỒI</h2>
+          <div class="luoi">
+            <input data-tower="2-0" value="Giao tiếp"><input data-tower="2-1" value="Quản lý thời gian">
+            <input data-tower="2-2" value="Tin học / Ngoại ngữ"><input data-tower="2-3" value="Tư duy phản biện">
+          </div>
+        </div></article>
+
+        <article class="tang t2"><div class="noidung">
+          <small>Nhỏ thôi, nhưng mỗi ngày</small>
+          <h2><span class="so">2</span>THÓI QUEN CẦN RÈN LUYỆN</h2>
+          <div class="luoi">
+            <input data-tower="1-0" value="Dậy sớm 6h"><input data-tower="1-1" value="Đọc 15 phút / ngày">
+            <input data-tower="1-2" value="Ghi nhật ký"><input data-tower="1-3" value="Tập thể dục">
+          </div>
+        </div></article>
+
+        <article class="tang t1"><div class="noidung">
+          <small>Nền tảng • Nhìn thẳng để vượt qua</small>
+          <h2><span class="so">1</span>TRỞ NGẠI CẦN VƯỢT QUA</h2>
+          <div class="luoi">
+            <input data-tower="0-0" value="Trì hoãn"><input data-tower="0-1" value="Sợ thất bại">
+            <input data-tower="0-2" value="Thiếu tập trung"><input data-tower="0-3" value="So sánh bản thân">
+          </div>
+        </div></article>
+      </div>
+
+      <div class="tien-do-khung">
+        <div class="tien-do"><i id="progressBar"></i></div>
+        <div class="tien-do-chu"><span id="phanTram">0%</span><span>Nền vững thì đỉnh mới cao — đừng vội nhảy tầng 🚀</span></div>
+      </div>
+    </section>
+
+    <!-- bên phải: mục tiêu -->
+    <aside class="cot-phai">
+      <div class="hop-muctieu tay">
+        <div class="dau"><span class="ngoi">◎</span> MỤC TIÊU CỦA TÔI ✎</div>
+        <div class="thanh-muctieu">
+          <div class="postit p1">
+            <div class="postit-tren"><b>🚩 Mục tiêu ngắn hạn</b><span>1 tháng</span></div>
+            <textarea data-goal="0" placeholder="Một việc cụ thể, làm được ngay trong tháng này..."></textarea>
+          </div>
+          <div class="postit p2">
+            <div class="postit-tren"><b>🚀 Mục tiêu trung hạn</b><span>6 tháng</span></div>
+            <textarea data-goal="1" placeholder="Một thói quen / kỹ năng muốn thấy rõ tiến bộ..."></textarea>
+          </div>
+          <div class="postit p3">
+            <div class="postit-tren"><b>🎯 Mục tiêu dài hạn</b><span>1-3 năm</span></div>
+            <textarea data-goal="2" placeholder="Hình ảnh cuộc sống mà mình muốn hướng tới..."></textarea>
+          </div>
+        </div>
+        <p class="luu-y">👓 Mục tiêu tốt là mục tiêu nhìn thấy được: cụ thể, đo được và có hạn chót.</p>
+      </div>
+
+      <div class="cauhoi tay">
+        <small>CÂU HỎI CHO HÔM NAY</small>
+        <p id="cauHoi">“Nếu chỉ làm được một việc hôm nay, mình sẽ chọn việc nào?”</p>
+        <button class="nut" id="doiCau">🎲 Đổi câu khác</button>
+      </div>
+    </aside>
+  </div>
+
+  <div class="tieu-de-buoc"><h2>3 bước hành động</h2></div>
+  <div class="cac-buoc">
+    <article class="buoc tay"><span class="buoc-so">1</span><div class="buoc-icon">👀</div><h3>Nhìn lại bản thân →</h3><p>Dừng lại một chút. Điều gì đang níu mình lại, điều gì làm mình vui?</p></article>
+    <article class="buoc tay"><span class="buoc-so">2</span><div class="buoc-icon">📝</div><h3>Sắp xếp ưu tiên →</h3><p>Không cần làm tất cả. Chọn 1 trở ngại, 1 thói quen và 1 kỹ năng trước.</p></article>
+    <article class="buoc tay"><span class="buoc-so">3</span><div class="buoc-icon">👣</div><h3>Hành động nhỏ mỗi ngày</h3><p>15 phút hôm nay tốt hơn “để mai” cả tuần. Bắt đầu từ bước nhỏ nhất!</p></article>
+  </div>
+
+  <footer class="chan">
+    <p class="loi">Điền bằng chính lời của bạn. Không cần hoàn hảo — chỉ cần bắt đầu ✨</p>
+    <div class="tem">Sản phẩm của Tổ 1</div>
+    <p class="nho">Nội dung bạn nhập sẽ được lưu trên trình duyệt của máy này. Nhớ bấm “Lưu tháp của tôi” sau khi điền.</p>
+  </footer>
+</main>
+
+<!-- hộp hỏi khi khôi phục -->
+<div class="nen-toi" id="modal">
+  <div class="hop-hoi tay">
+    <h3>Khôi phục mẫu gốc?</h3>
+    <p>Nội dung bạn đã điền sẽ bị thay bằng nội dung mẫu ban đầu. Bạn chắc chưa?</p>
+    <div class="nut-hop">
+      <button class="nut" id="cancelRestore">Thôi</button>
+      <button class="nut chinh" id="confirmRestore">Khôi phục</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// dữ liệu mẫu ban đầu
+const MAU = [
+  ["Trì hoãn","Sợ thất bại","Thiếu tập trung","So sánh bản thân"],
+  ["Dậy sớm 6h","Đọc 15 phút / ngày","Ghi nhật ký","Tập thể dục"],
+  ["Giao tiếp","Quản lý thời gian","Tin học / Ngoại ngữ","Tư duy phản biện"],
+  ["Được công nhận","Tự tin","Học hỏi","Sống ý nghĩa"]
+];
+const CAU_HOI = [
+  "Nếu chỉ làm được một việc hôm nay, mình sẽ chọn việc nào?",
+  "Một năm nữa, mình muốn cảm ơn bản thân vì điều gì?",
+  "Điều gì làm mình vui nhất tuần này?",
+  "Mình đang né tránh việc gì và vì sao?",
+  "Một thói quen nhỏ nào mình có thể bắt đầu từ ngày mai?",
+  "Ai là người truyền cảm hứng cho mình và mình học được gì từ họ?"
+];
+const KEY = "thap-dinh-huong-ca-nhan-v1";
+
+const oThap = [...document.querySelectorAll("[data-tower]")];
+const oMucTieu = [...document.querySelectorAll("[data-goal]")];
+const statusEl = document.getElementById("status");
+const thanh = document.getElementById("progressBar");
+const phanTram = document.getElementById("phanTram");
+const modal = document.getElementById("modal");
+const cauHoiEl = document.getElementById("cauHoi");
+let daNoPhaoGiay = false;
+
+// lấy dữ liệu đang điền
+function layDuLieu(){
+  const tower = [[],[],[],[]];
+  oThap.forEach(el=>{
+    const [t,i] = el.dataset.tower.split("-").map(Number);
+    tower[t][i] = el.value;
+  });
+  const goals = oMucTieu.map(el=>el.value);
+  return { tower, goals, saved_at: new Date().toISOString() };
+}
+
+// đổ dữ liệu vào các ô
+function datDuLieu(data){
+  if(!data) return;
+  oThap.forEach(el=>{
+    const [t,i] = el.dataset.tower.split("-").map(Number);
+    if(data.tower && data.tower[t] && typeof data.tower[t][i]==="string") el.value = data.tower[t][i];
+  });
+  oMucTieu.forEach((el,i)=>{
+    if(data.goals && typeof data.goals[i]==="string") el.value = data.goals[i];
+  });
+  capNhatTienDo();
+}
+
+// thanh tiến độ
+function capNhatTienDo(){
+  const daDien = oThap.filter(el=>el.value.trim()).length;
+  const pt = Math.round(daDien / oThap.length * 100);
+  thanh.style.width = pt + "%";
+  phanTram.textContent = "Đã điền " + pt + "%";
+  if(pt === 100 && !daNoPhaoGiay){ daNoPhaoGiay = true; phaoGiay(); }
+  if(pt < 100) daNoPhaoGiay = false;
+}
+
+// pháo giấy cho vui
+function phaoGiay(){
+  const hinh = ["🎉","⭐","✨","💖","🌈","🎊"];
+  for(let i=0;i<24;i++){
+    const s = document.createElement("span");
+    s.className = "giay-roi";
+    s.textContent = hinh[Math.floor(Math.random()*hinh.length)];
+    s.style.left = Math.random()*100 + "vw";
+    s.style.animationDelay = (Math.random()*0.8) + "s";
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(), 3500);
+  }
+}
+
+function taiLai(){
+  try{
+    const raw = localStorage.getItem(KEY);
+    if(raw) datDuLieu(JSON.parse(raw));
+  }catch(e){}
+  capNhatTienDo();
+}
+
+function luu(){
+  try{
+    localStorage.setItem(KEY, JSON.stringify(layDuLieu()));
+    statusEl.textContent = "✅ Đã lưu tháp của bạn lúc " + new Date().toLocaleString("vi-VN");
+    statusEl.classList.remove("loi-luu");
+    phaoGiay();
+  }catch(e){
+    statusEl.textContent = "😢 Chưa lưu được, thử lại nhé.";
+    statusEl.classList.add("loi-luu");
+  }
+}
+
+function khoiPhuc(){
+  const data = { tower: MAU.map(h=>[...h]), goals: ["","",""] };
+  datDuLieu(data);
+  try{ localStorage.setItem(KEY, JSON.stringify({...data, saved_at:new Date().toISOString()})); }catch(e){}
+  statusEl.textContent = "↺ Đã khôi phục mẫu gốc.";
+  statusEl.classList.remove("loi-luu");
+  modal.classList.remove("mo");
+}
+
+// đổi câu hỏi ngẫu nhiên
+function doiCauHoi(){
+  let moi;
+  do { moi = CAU_HOI[Math.floor(Math.random()*CAU_HOI.length)]; }
+  while(cauHoiEl.textContent.includes(moi) && CAU_HOI.length > 1);
+  cauHoiEl.textContent = "“" + moi + "”";
+}
+
+oThap.forEach(el=>el.addEventListener("input", capNhatTienDo));
+document.getElementById("saveBtn").addEventListener("click", luu);
+document.getElementById("restoreBtn").addEventListener("click", ()=>modal.classList.add("mo"));
+document.getElementById("cancelRestore").addEventListener("click", ()=>modal.classList.remove("mo"));
+document.getElementById("confirmRestore").addEventListener("click", khoiPhuc);
+document.getElementById("doiCau").addEventListener("click", doiCauHoi);
+modal.addEventListener("click", e=>{ if(e.target===modal) modal.classList.remove("mo"); });
+taiLai();
+</script>
+</body>
+</html>
